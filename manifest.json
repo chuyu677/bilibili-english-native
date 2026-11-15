@@ -1,0 +1,63 @@
+{
+  "manifest_version": 3,
+  "name": "BiliNative — Natural English Bilibili",
+  "version": "0.1.0",
+  "description": "Turns Bilibili into a native-feeling English experience using AI (Index-Translate or any OpenAI-compatible LLM), with hover-to-peek original Chinese for language learning.",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "declarativeNetRequest"
+  ],
+  "declarative_net_request": {
+    "rule_resources": [
+      {
+        "id": "bilibili_waf_rules",
+        "enabled": true,
+        "path": "src/rules.json"
+      }
+    ]
+  },
+  "host_permissions": [
+    "*://*.bilibili.com/*",
+    "https://index-translate.bilibili.com/*",
+    "http://localhost/*",
+    "http://127.0.0.1/*"
+  ],
+  "optional_host_permissions": [
+    "https://*/*",
+    "http://*/*"
+  ],
+  "background": {
+    "service_worker": "src/background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.bilibili.com/*"
+      ],
+      "js": [
+        "src/ui-dict.js",
+        "src/translator.js",
+        "src/content.js"
+      ],
+      "css": [
+        "src/styles.css"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_popup": "src/popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "options_page": "src/options.html",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}
